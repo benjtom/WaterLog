@@ -16,8 +16,6 @@ import com.example.finalproject_waterlog.WaterLogApplication
 @Composable
 fun TopButtonRow(
     navController: NavController,
-    scope: CoroutineScope,
-    application: WaterLogApplication
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),

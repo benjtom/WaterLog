@@ -10,16 +10,10 @@ class DrinkLogRepository(
     private val drinkLogsDao: DrinkLogsDao
 ) {
     private val _drinkLogs = MutableStateFlow(emptyList<DrinkLog>())
-    private val _numDrinkLogs = MutableStateFlow(0)
     val drinkLogs: StateFlow<List<DrinkLog>> = _drinkLogs
-    val numDrinkLogs: StateFlow<Int> = _numDrinkLogs
 
     suspend fun loadDrinkLogs() {
         _drinkLogs.value = drinkLogsDao.getAllDrinkLogs()
-    }
-
-    suspend fun loadNumDrinkLogs() {
-        _numDrinkLogs.value = drinkLogsDao.getRowCount()
     }
 
     suspend fun addDrinkLog(

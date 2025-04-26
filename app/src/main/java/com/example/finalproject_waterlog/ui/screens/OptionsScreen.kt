@@ -1,8 +1,6 @@
 package com.example.finalproject_waterlog.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.finalproject_waterlog.Destinations
 import com.example.finalproject_waterlog.WaterLogApplication
+import com.example.finalproject_waterlog.ui.utils.DatabasePopulator
 import com.example.finalproject_waterlog.viewmodels.OptionsScreenViewModel
 import kotlinx.coroutines.launch
 
@@ -34,6 +33,8 @@ fun OptionsScreen(
     val scope = rememberCoroutineScope()
     val weightState by viewModel.weight.collectAsState()
     val pattern = remember { Regex("^\\d+$") }
+    val application = LocalContext.current.applicationContext as WaterLogApplication
+    val databasePopulator = remember { DatabasePopulator(application) }
 
     Column(
         modifier = Modifier
@@ -112,9 +113,27 @@ fun OptionsScreen(
                 containerColor = Color.Red,
                 contentColor = Color.White
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
         ) {
             Text("Delete User Data")
+        }
+        
+        // Populate Database Button
+        Button(
+            onClick = {
+                scope.launch {
+                    databasePopulator.populateAllDatabases()
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFFF7F7F),
+                contentColor = Color.White
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Override Data with Sample Data")
         }
     }
 } 

@@ -1,6 +1,5 @@
 package com.example.finalproject_waterlog.repositories
 
-import com.example.finalproject_waterlog.Destinations
 import com.example.finalproject_waterlog.daos.UserInfoDao
 import com.example.finalproject_waterlog.models.UserInfo
 import kotlinx.coroutines.flow.MutableStateFlow

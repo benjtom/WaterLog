@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.finalproject_waterlog.R
 import com.example.finalproject_waterlog.WaterLogApplication
-import com.example.finalproject_waterlog.models.DrinkLog
 import com.example.finalproject_waterlog.repositories.DrinkLogRepository
 import com.example.finalproject_waterlog.repositories.FlowerRepository
 import com.example.finalproject_waterlog.repositories.UserInfoRepository
@@ -21,9 +20,6 @@ class MainScreenViewModel(
     private val drinkLogRepository: DrinkLogRepository,
     private val flowerRepository: FlowerRepository
 ): ViewModel() {
-    private val _drinkLogs = MutableStateFlow(emptyList<DrinkLog>())
-    val drinkLogs: StateFlow<List<DrinkLog>> = _drinkLogs
-
     private val _drawableFlower = MutableStateFlow(R.drawable.stage1)
     val drawableFlower: StateFlow<Int> = _drawableFlower
 
@@ -34,16 +30,6 @@ class MainScreenViewModel(
 
     fun setDrawableFlower(drawableId: Int) {
         _drawableFlower.value = drawableId
-    }
-
-    fun setPercentComplete(percentComplete: Float) {
-        _percentComplete.value = percentComplete
-    }
-
-    fun loadDrinkLogs() {
-        viewModelScope.launch {
-            drinkLogRepository.loadDrinkLogs()
-        }
     }
 
     suspend fun addDrinkLog(ounces: Int) {
@@ -70,13 +56,6 @@ class MainScreenViewModel(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            drinkLogRepository.drinkLogs.collect {
-                _drinkLogs.value = it
-            }
-        }
-    }
 
     companion object {
         val Factory = viewModelFactory {

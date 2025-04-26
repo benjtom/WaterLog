@@ -27,10 +27,6 @@ class CreateUserScreenViewModel(
         _weight.value = weight
     }
 
-    fun setOuncesDrunk(ouncesDrunk: Int) {
-        _ouncesDrunk.value = ouncesDrunk
-    }
-
     suspend fun saveUserInfo() {
         if (_name.value.isNotEmpty() && _weight.value > 0) {
             userInfoRepository.setUserInfo(

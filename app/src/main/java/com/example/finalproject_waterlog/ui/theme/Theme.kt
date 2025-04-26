@@ -17,11 +17,11 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = GardenGreen,
     onTertiary = Color.Black,
 
-    background = Color(0xFFF1FAFA),
-    onBackground = Color.Black,
+    background = DarkBackground,
+    onBackground = OnDarkBackground,
 
-    surface = LightBackground,
-    onSurface = DarkBackground
+    surface = DarkBackground,
+    onSurface = OnDarkBackground,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -35,11 +35,11 @@ private val LightColorScheme = lightColorScheme(
     tertiary = GardenGreen,
     onTertiary = Color.Black,
 
-    background = Color(0xFFF1FAFA),
-    onBackground = Color.Black,
+    background = LightBackground,
+    onBackground = OnLightBackground,
 
     surface = LightBackground,
-    onSurface = DarkBackground
+    onSurface = OnLightBackground,
 )
 
 @Composable

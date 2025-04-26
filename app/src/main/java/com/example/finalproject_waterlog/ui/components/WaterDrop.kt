@@ -14,18 +14,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
-import com.example.finalproject_waterlog.ui.components.SplashParticle
+import com.example.finalproject_waterlog.ui.components.DripParticle
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.random.Random
 
 @Composable
 fun WaterDrop(
     ounces: Int,
-    variant: String,
     addWater: () -> Unit,
 ) {
     var ouncesTemp by remember { mutableIntStateOf(ounces) }
@@ -41,11 +36,6 @@ fun WaterDrop(
 
     val outerSize = 96.dp
     val density = LocalDensity.current
-    val originalXOffset = when (variant) {
-        "left" -> -outerSize
-        "right" -> outerSize
-        else -> 0.dp
-    }
 
     val padding = outerSize - size
     val fontSize = when (ounces) {
@@ -70,8 +60,7 @@ fun WaterDrop(
 
     LaunchedEffect(released) {
         if (released && yPos.value <= -200f) {
-            // Animate splash
-
+            // Animate drips
             particles.forEachIndexed { i, anim ->
                 sizeTemp -= (40 * (1f / ounces)).dp
                 ouncesTemp--
@@ -133,9 +122,9 @@ fun WaterDrop(
             },
         contentAlignment = Alignment.Center
     ) {
-        // Splash particles
+        // Drip particles
         particles.forEach {
-            SplashParticle(
+            DripParticle(
                 xOffset = it.value.x,
                 yOffset = it.value.y
             )

@@ -7,14 +7,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -22,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -50,7 +46,6 @@ fun FlowerCollectionScreen(
             .padding(16.dp)
             .fillMaxSize()
     ){
-        // Back button
         Button(
             onClick = { navController.navigate(Destinations.Home) },
             modifier = Modifier.padding(bottom = 16.dp)
@@ -115,32 +110,5 @@ fun FlowerCollectionScreen(
             }
         }
 
-//        LazyColumn(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .fillMaxHeight(.9f)
-//        ){
-//            items(flowers) {
-//                val drawableId = when (it.type) {
-//                    "yellow" -> R.drawable.yellow_flower
-//                    "pink" -> R.drawable.pink_flower
-//                    "orange" -> R.drawable.orange_flower
-//                    "blue" -> R.drawable.blue_flower
-//                    "yellow_tulip" -> R.drawable.yellow_tulip_big
-//                    "purple_star" -> R.drawable.purple_star
-//                    "rainbow_tulip" -> R.drawable.rainbow_tulip
-//                    else -> R.drawable.yellow_flower
-//                }
-//                Image(
-//                    painter = painterResource(id = drawableId),
-//                    contentDescription = "flower",
-//                    modifier = Modifier
-//                        .clip(CircleShape),
-//                    contentScale = ContentScale.Crop
-//                )
-//                Spacer(modifier = Modifier.height(8.dp))
-//            }
-//        }
     }
 }

@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SplashParticle(
+fun DripParticle(
     xOffset: Float,
     yOffset: Float,
     modifier: Modifier = Modifier

@@ -1,7 +1,6 @@
 package com.example.finalproject_waterlog.ui.screens
 
 import WaterDrop
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -15,14 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -96,6 +92,7 @@ fun MainScreen(
         val ozDrunkThisTime = ozTempState
         launch {
             // if the amount of oz added would complete the goal
+            // run the big animation sequence
             if ((userInfo.value.ouncesDrunk+ozDrunkThisTime) / (userInfo.value.weight/2) >= 1) {
                 viewModel.setOuncesDrunk(userInfo.value.ouncesDrunk+ozDrunkThisTime)
                 currentlyAnimating = true
@@ -164,7 +161,7 @@ fun MainScreen(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                TopButtonRow(navController, scope, application)
+                TopButtonRow(navController)
                 Spacer(modifier = Modifier.height(32.dp))
                 WaterProgressBar(userInfo.value.ouncesDrunk, userInfo.value.weight/2)
             }
@@ -186,7 +183,7 @@ fun MainScreen(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    WaterDrop(4, "left", addWater = {
+                    WaterDrop(4, addWater = {
                         scope.launch {
                             if (!currentlyAnimating) {
                                 ozTempState += 4
@@ -194,7 +191,7 @@ fun MainScreen(
                             }
                         }
                     })
-                    WaterDrop(16, "middle", addWater = {
+                    WaterDrop(16, addWater = {
                         scope.launch {
                             if (!currentlyAnimating) {
                                 ozTempState += 16
@@ -202,7 +199,7 @@ fun MainScreen(
                             }
                         }
                     })
-                    WaterDrop(8, "right", addWater = {
+                    WaterDrop(8, addWater = {
                         scope.launch {
                             if (!currentlyAnimating) {
                                 ozTempState += 8
