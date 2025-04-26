@@ -71,14 +71,30 @@ fun FlowerCollectionScreen(
                 ) {
                     flowerObjects.forEach { flower ->
                         val drawableId = when (flower.type) {
-                            "yellow" -> R.drawable.yellow_flower
-                            "pink" -> R.drawable.pink_flower
-                            "orange" -> R.drawable.orange_flower
-                            "blue" -> R.drawable.blue_flower
-                            "yellow_tulip" -> R.drawable.yellow_tulip_big
-                            "purple_star" -> R.drawable.purple_star
-                            "rainbow_tulip" -> R.drawable.rainbow_tulip
-                            else -> R.drawable.yellow_flower
+                            "yellow" -> R.drawable.yellow
+                            "pink" -> R.drawable.pink
+                            "orange" -> R.drawable.orange
+                            "purple" -> R.drawable.purple
+                            "tulip" -> R.drawable.tulip
+                            "sun" -> R.drawable.sun
+                            "red" -> R.drawable.red
+                            "blue" -> R.drawable.blue
+                            "carnation" -> R.drawable.carnation
+                            "coral" -> R.drawable.coral
+                            "gold" -> R.drawable.gold
+                            "iris" -> R.drawable.iris
+                            "poppy" -> R.drawable.poppy
+                            "rose" -> R.drawable.rose
+                            "salmon" -> R.drawable.salmon
+                            "achimenes" -> R.drawable.achimenes
+                            "comet" -> R.drawable.comet
+                            "geneva" -> R.drawable.geneva
+                            "polaris" -> R.drawable.polaris
+                            "starry" -> R.drawable.starry
+                            "rainbow" -> R.drawable.rainbow
+                            "nebula" -> R.drawable.nebula
+                            "midnight" -> R.drawable.midnight
+                            else -> R.drawable.yellow
                         }
                         Image(
                             painter = painterResource(id = drawableId),

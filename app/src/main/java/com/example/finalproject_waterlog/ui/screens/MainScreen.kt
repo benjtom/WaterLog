@@ -31,6 +31,7 @@ import com.example.finalproject_waterlog.ui.components.FlowerPot
 import com.example.finalproject_waterlog.ui.components.MainFlower
 import com.example.finalproject_waterlog.ui.components.TopButtonRow
 import com.example.finalproject_waterlog.ui.components.WaterProgressBar
+import com.example.finalproject_waterlog.ui.utils.RandomDrawableFlower
 import com.example.finalproject_waterlog.viewmodels.MainScreenViewModel
 import kotlinx.coroutines.launch
 import com.example.finalproject_waterlog.R
@@ -43,22 +44,6 @@ fun MainScreen(
     application: WaterLogApplication,
     viewModel: MainScreenViewModel = viewModel(factory = MainScreenViewModel.Factory)
 ) {
-
-    fun randomDrawableFlower(): Pair<Int, String> {
-        val random = (1..6).random()
-        var flowerTuple = Pair<Int, String>(0, "")
-        flowerTuple = when (random) {
-            1 -> Pair<Int, String>(R.drawable.yellow_flower, "yellow")
-            2 -> Pair<Int, String>(R.drawable.orange_flower, "orange")
-            3 -> Pair<Int, String>(R.drawable.blue_flower, "blue")
-            4 -> Pair<Int, String>(R.drawable.pink_flower, "pink")
-            5 -> Pair<Int, String>(R.drawable.purple_star, "purple_star")
-            6 -> Pair<Int, String>(R.drawable.yellow_tulip_small, "yellow_tulip")
-            else -> Pair<Int, String>(R.drawable.rainbow_tulip, "rainbow_tulip")
-        }
-        return flowerTuple
-    }
-
     val scope = rememberCoroutineScope()
 
     val userInfo = application.userInfoRepository.userInfo.collectAsState()
@@ -97,7 +82,7 @@ fun MainScreen(
                 viewModel.setOuncesDrunk(userInfo.value.ouncesDrunk+ozDrunkThisTime)
                 currentlyAnimating = true
                 delay(500L)
-                var randomDrawableFlower = randomDrawableFlower()
+                var randomDrawableFlower = RandomDrawableFlower.getRandomRarity()
                 viewModel.setDrawableFlower(randomDrawableFlower.first)
                 viewModel.addFlower(randomDrawableFlower.second)
                 delay(500L)
