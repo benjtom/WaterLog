@@ -40,6 +40,14 @@ fun OptionsScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // Back button
+        Button(
+            onClick = { navController.navigate(Destinations.Home) },
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Text("Back to Home")
+        }
+
         Text(
             text = "Options",
             fontSize = 24.sp,

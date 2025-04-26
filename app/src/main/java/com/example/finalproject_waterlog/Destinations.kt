@@ -10,4 +10,6 @@ class Destinations {
     @Serializable object FlowerCollection
 
     @Serializable object Options
+
+    @Serializable object DrinkLogs
 }

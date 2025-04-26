@@ -56,6 +56,7 @@ import com.example.finalproject_waterlog.ui.screens.CreateUserScreen
 import com.example.finalproject_waterlog.ui.screens.FlowerCollectionScreen
 import com.example.finalproject_waterlog.ui.screens.MainScreen
 import com.example.finalproject_waterlog.ui.screens.OptionsScreen
+import com.example.finalproject_waterlog.ui.screens.DrinkLogsScreen
 import com.example.finalproject_waterlog.ui.theme.MyAppTheme
 import kotlinx.coroutines.launch
 
@@ -114,11 +115,15 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<Destinations.FlowerCollection> {
                                 welcomeMessage = userInfo.value.name + "'s Garden"
-                                FlowerCollectionScreen()
+                                FlowerCollectionScreen(navController)
                             }
                             composable<Destinations.Options> {
                                 welcomeMessage = "Options"
                                 OptionsScreen(navController)
+                            }
+                            composable<Destinations.DrinkLogs> {
+                                welcomeMessage = "Drink Logs"
+                                DrinkLogsScreen(navController)
                             }
                         }
                     }

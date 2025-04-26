@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,11 +29,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.finalproject_waterlog.Destinations
 import com.example.finalproject_waterlog.R
 import com.example.finalproject_waterlog.viewmodels.FlowerCollectionScreenViewModel
 
 @Composable
 fun FlowerCollectionScreen(
+    navController: NavController,
     viewModel: FlowerCollectionScreenViewModel = viewModel(factory = FlowerCollectionScreenViewModel.Factory)
 ) {
     val flowers by viewModel.flowers.collectAsState()
@@ -45,6 +50,13 @@ fun FlowerCollectionScreen(
             .padding(16.dp)
             .fillMaxSize()
     ){
+        // Back button
+        Button(
+            onClick = { navController.navigate(Destinations.Home) },
+            modifier = Modifier.padding(bottom = 16.dp)
+        ) {
+            Text("Back to Home")
+        }
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

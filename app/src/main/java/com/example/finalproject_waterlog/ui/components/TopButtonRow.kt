@@ -23,7 +23,7 @@ fun TopButtonRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // Left Button
+        // Left Button - Garden
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -40,7 +40,24 @@ fun TopButtonRow(
             )
         }
 
-        // Right Button
+        // Middle Button - Drink Logs
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            onClick = {
+                navController.navigate(Destinations.DrinkLogs)
+            },
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "Drink Logs💧",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        // Right Button - Options
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
