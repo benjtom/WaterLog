@@ -73,7 +73,11 @@ fun OptionsScreen(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text("Your Weight (In Pounds)") },
-            singleLine = true
+            singleLine = true,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            )
         )
 
         Button(
