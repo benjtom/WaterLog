@@ -113,7 +113,7 @@ fun MainScreen(
                     else -> "Common"
                 }
                 
-                flowerEarnedMessage = "You earned a ${flowerRarity} ${randomDrawableFlower.second} flower!"
+                flowerEarnedMessage = "You earned a ${flowerRarity} ${randomDrawableFlower.second.replaceFirstChar { it.uppercase() }} flower!"
                 showFlowerEarnedMessage = true
                 
                 // Animate the message appearance and disappearance
