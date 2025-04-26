@@ -3,7 +3,10 @@ package com.example.finalproject_waterlog.ui.screens
 import WaterDrop
 import android.util.Log
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,10 +15,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +30,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.finalproject_waterlog.WaterLogApplication
@@ -73,6 +85,12 @@ fun MainScreen(
 
     val flowerXOffset = remember { Animatable(0f) }
     val flowerYOffset = remember { Animatable(0f) }
+    
+    // State for the flower earned message
+    var showFlowerEarnedMessage by remember { mutableStateOf(false) }
+    var flowerEarnedMessage by remember { mutableStateOf("") }
+    var flowerRarity by remember { mutableStateOf("") }
+    val messageAlpha = remember { Animatable(0f) }
 
     LaunchedEffect(ozTempState) {
         val ozDrunkThisTime = ozTempState
@@ -85,6 +103,26 @@ fun MainScreen(
                 var randomDrawableFlower = RandomDrawableFlower.getRandomRarity()
                 viewModel.setDrawableFlower(randomDrawableFlower.first)
                 viewModel.addFlower(randomDrawableFlower.second)
+                
+                // Set the flower earned message based on rarity
+                flowerRarity = when {
+                    randomDrawableFlower.second in listOf("yellow", "orange", "purple", "pink", "red", "sun", "tulip") -> "Common"
+                    randomDrawableFlower.second in listOf("blue", "carnation", "coral", "gold", "iris", "poppy", "rose", "salmon") -> "Uncommon"
+                    randomDrawableFlower.second in listOf("achimenes", "comet", "geneva", "polaris", "starry") -> "Rare"
+                    randomDrawableFlower.second in listOf("rainbow", "nebula", "midnight") -> "Legendary"
+                    else -> "Common"
+                }
+                
+                flowerEarnedMessage = "You earned a ${flowerRarity} ${randomDrawableFlower.second} flower!"
+                showFlowerEarnedMessage = true
+                
+                // Animate the message appearance and disappearance
+                messageAlpha.snapTo(0f)
+                messageAlpha.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+                )
+                
                 delay(500L)
                 flowerYOffset.animateTo(-80f)
                 delay(2000L)
@@ -97,9 +135,16 @@ fun MainScreen(
                 viewModel.setOuncesDrunk(0)
                 viewModel.setDrawableFlower(R.drawable.stage1)
                 delay(500L)
+
+                messageAlpha.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+                )
                 flowerYOffset.snapTo(0f)
                 flowerXOffset.snapTo(0f)
                 ozTempState = 0
+
+                showFlowerEarnedMessage = false
                 currentlyAnimating = false
             } else {
                 viewModel.setOuncesDrunk(userInfo.value.ouncesDrunk+ozDrunkThisTime)
@@ -108,60 +153,91 @@ fun MainScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxSize()
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
         ) {
-            TopButtonRow(navController, scope, application)
-            Spacer(modifier = Modifier.height(32.dp))
-            WaterProgressBar(userInfo.value.ouncesDrunk, userInfo.value.weight/2)
-        }
-
-        Spacer(modifier = Modifier.fillMaxHeight(.2f)) // Push bottom section down
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            MainFlower(drawableFlower.value, xOffset = flowerXOffset.value, yOffset = flowerYOffset.value)
-            FlowerPot()
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                WaterDrop(4, "left", addWater = {
-                    scope.launch {
-                        if (!currentlyAnimating) {
-                            ozTempState += 4
-                            viewModel.addDrinkLog(4)
+                TopButtonRow(navController, scope, application)
+                Spacer(modifier = Modifier.height(32.dp))
+                WaterProgressBar(userInfo.value.ouncesDrunk, userInfo.value.weight/2)
+            }
+
+            Spacer(modifier = Modifier.fillMaxHeight(.2f)) // Push bottom section down
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                MainFlower(drawableFlower.value, xOffset = flowerXOffset.value, yOffset = flowerYOffset.value)
+                FlowerPot()
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    WaterDrop(4, "left", addWater = {
+                        scope.launch {
+                            if (!currentlyAnimating) {
+                                ozTempState += 4
+                                viewModel.addDrinkLog(4)
+                            }
                         }
-                    }
-                })
-                WaterDrop(16, "middle", addWater = {
-                    scope.launch {
-                        if (!currentlyAnimating) {
-                            ozTempState += 16
-                            viewModel.addDrinkLog(16)
+                    })
+                    WaterDrop(16, "middle", addWater = {
+                        scope.launch {
+                            if (!currentlyAnimating) {
+                                ozTempState += 16
+                                viewModel.addDrinkLog(16)
+                            }
                         }
-                    }
-                })
-                WaterDrop(8, "right", addWater = {
-                    scope.launch {
-                        if (!currentlyAnimating) {
-                            ozTempState += 8
-                            viewModel.addDrinkLog(8)
+                    })
+                    WaterDrop(8, "right", addWater = {
+                        scope.launch {
+                            if (!currentlyAnimating) {
+                                ozTempState += 8
+                                viewModel.addDrinkLog(8)
+                            }
                         }
-                    }
-                })
+                    })
+                }
+            }
+        }
+        
+        // Flower earned message overlay
+        if (showFlowerEarnedMessage) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .alpha(messageAlpha.value),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Text(
+                    text = flowerEarnedMessage,
+                    color = when (flowerRarity) {
+                        "Common" -> Color(0xFF9E9E9E) // Gray
+                        "Uncommon" -> Color(0xFF4CAF50) // Green
+                        "Rare" -> Color(0xFF2196F3) // Blue
+                        "Legendary" -> Color(0xFFE91E63) // Pink
+                        else -> Color.White
+                    },
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 32.dp)
+                        .fillMaxWidth()
+                )
             }
         }
     }
